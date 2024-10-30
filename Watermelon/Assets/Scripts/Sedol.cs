@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -38,14 +39,20 @@ public class Sedol : MonoBehaviour
     public bool isMerge;
     CircleCollider2D circlecollider;
 
+    public ParticleSystem effect;
 
+    private float stayTime;
+    SpriteRenderer spriteRenderer;
 
+    public bool isGameOver;
     private void Awake()
     {
         mainCamera = Camera.main;
         circleRigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         circlecollider = GetComponent<CircleCollider2D>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         waitAbsorb = new WaitForSeconds(absorbTime);
         waitAnimation = new WaitForSeconds(playAniamtion);
@@ -175,6 +182,11 @@ public class Sedol : MonoBehaviour
         }
         isMerge = false;
         gameObject.SetActive(false);
+
+        //레벨에 비례하여 점수 부여
+        // 더 높은 레벨 생성시 극적인 효과를 주고싶었다
+        GameManager.Instance.score += (int)Mathf.Pow(2, level);
+        
     }
 
     /// <summary>
@@ -200,7 +212,7 @@ public class Sedol : MonoBehaviour
         yield return waitAbsorb;
 
         animator.SetInteger("Level", level + 1);
-
+        PlayEffect();
         // 애니메이션 재싱시간 또한 기다린다.
         yield return waitAnimation;
 
@@ -226,5 +238,46 @@ public class Sedol : MonoBehaviour
     {
         isDrag = false;
         circleRigidbody.simulated = true;
+    }
+
+    //이펙트 재생 함수
+    private void PlayEffect()
+    {
+        // 이펙트의 포지션을 나의 위치로
+        effect.transform.position = transform.position;
+        // 이펙트의 크기를 나의 스케일로
+        effect.transform.localScale = transform.localScale;
+        // 이펙트 재생
+        effect.Play();
+    }
+
+    //점선에 닿고 2초가 경과하면 빨간색으로 경고, 
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.CompareTag("Finish"))
+        {
+            stayTime += Time.deltaTime;
+            if (stayTime >= 5f)
+            {
+                GameManager.Instance.Gameover();
+                
+            }
+            else if(stayTime > 2f)
+            {
+                spriteRenderer.color = Color.red;
+                
+            }
+
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Finish"))
+        {
+            spriteRenderer.color = Color.white;
+            stayTime = 0;
+        }
     }
 }

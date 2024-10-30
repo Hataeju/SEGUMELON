@@ -20,12 +20,15 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject sedolPrefab;
     [SerializeField] private Transform sedolGroup;
+    [SerializeField] private GameObject effectPrefab;
+    [SerializeField] private Transform effectGroup;
 
     private WaitForSeconds waitNextCircle;
 
     public int maxLevel;
+    public int score;
 
-
+    public bool isGameOver;
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -55,9 +58,11 @@ public class GameManager : MonoBehaviour
 
     private Sedol GetSedol()
     {
+        ParticleSystem effect = Instantiate(effectPrefab, effectGroup).GetComponent<ParticleSystem>();
         // instantiate 게임 오브젝트를 생성하는 코드
         GameObject temp = Instantiate(sedolPrefab, sedolGroup);
         Sedol sedol = temp.GetComponent<Sedol>();
+        sedol.effect = effect;
         return sedol;
     }
     // Update is called once per frame
@@ -96,5 +101,15 @@ public class GameManager : MonoBehaviour
         }
         yield return waitNextCircle;
         NextSedol();
+    }
+
+    public void Gameover()
+    {
+        if (isGameOver) return;
+
+        isGameOver = true;
+
+        Debug.Log("게임오버!");
+        
     }
 }

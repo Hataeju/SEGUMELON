@@ -294,7 +294,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 126131509}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 1, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -960,6 +960,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1402677582}
   - component: {fileID: 1402677581}
+  - component: {fileID: 1402677583}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -982,6 +983,11 @@ MonoBehaviour:
   lastSedol: {fileID: 0}
   sedolPrefab: {fileID: 3234827300515599769, guid: 5f68470c4cde43444be00dd13d09821f, type: 3}
   sedolGroup: {fileID: 1682086594}
+  effectPrefab: {fileID: 9163680000854119751, guid: 99a44381bc438344d999c26f9cdeec85, type: 3}
+  effectGroup: {fileID: 2139496264}
+  maxLevel: 0
+  score: 0
+  isGameOver: 0
 --- !u!4 &1402677582
 Transform:
   m_ObjectHideFlags: 0
@@ -997,6 +1003,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1402677583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1402677580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6097ee5a3162c874c9ae93e0f4a11bd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1682086593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,7 +1059,7 @@ GameObject:
   - component: {fileID: 1898089636}
   m_Layer: 0
   m_Name: Boarder_Line
-  m_TagString: Untagged
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1139,3 +1157,34 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 11, y: 0.14}
   m_EdgeRadius: 0
+--- !u!1 &2139496263
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2139496264}
+  m_Layer: 0
+  m_Name: EffectGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2139496264
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139496263}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

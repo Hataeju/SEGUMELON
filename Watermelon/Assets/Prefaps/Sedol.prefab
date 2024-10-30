@@ -106,7 +106,7 @@ Rigidbody2D:
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 1
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!58 &3234827300515599765
@@ -139,8 +139,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 0.499
   mergeSpeed: 0.5
+  absorbTime: 0.2
+  playAniamtion: 0.3
   isDrag: 0
   level: 0
+  max: 0
+  isMerge: 0
+  effect: {fileID: 0}
 --- !u!95 &7233734120900997726
 Animator:
   serializedVersion: 5
