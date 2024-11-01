@@ -30,7 +30,7 @@ public class Sedol : MonoBehaviour
 
 
     public bool isDrag;
-    Rigidbody2D circleRigidbody;
+    public Rigidbody2D circleRigidbody;
 
     public int level;
     public int max = 0;
@@ -44,7 +44,6 @@ public class Sedol : MonoBehaviour
     private float stayTime;
     SpriteRenderer spriteRenderer;
 
-    public bool isGameOver;
     private void Awake()
     {
         mainCamera = Camera.main;
@@ -166,7 +165,7 @@ public class Sedol : MonoBehaviour
         isMerge = true;
         circleRigidbody.simulated = false;
         circlecollider.enabled = false;
-
+        if(GameManager.Instance.isGameOver) PlayEffect();
         StartCoroutine(Move(target));
     }
 
@@ -280,4 +279,19 @@ public class Sedol : MonoBehaviour
             stayTime = 0;
         }
     }
+
+
+
+
+
+
+
+
+
+    // id,pw 입력
+    // 로그인 버튼 클릭
+    // 서버에서 보냄
+    // 서버에서 검사함
+    // 서버에서 ok or no sign 준다
+    // 클라에서 싸인을 보고 에러메시지 또는 로그인 진행
 }

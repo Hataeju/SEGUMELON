@@ -980,6 +980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59ed74947b66b3e4b83e187e3972becc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  absorbTime: 1
   lastSedol: {fileID: 0}
   sedolPrefab: {fileID: 3234827300515599769, guid: 5f68470c4cde43444be00dd13d09821f, type: 3}
   sedolGroup: {fileID: 1682086594}
@@ -987,6 +988,7 @@ MonoBehaviour:
   effectGroup: {fileID: 2139496264}
   maxLevel: 0
   score: 0
+  effect: {fileID: 341903535628532297, guid: 99a44381bc438344d999c26f9cdeec85, type: 3}
   isGameOver: 0
 --- !u!4 &1402677582
 Transform:

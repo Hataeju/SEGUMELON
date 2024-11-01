@@ -13,8 +13,10 @@ public class GameManager : MonoBehaviour
     private static GameManager instance = null;
     public static GameManager Instance { get { return instance; } }
 
+    [Header("상대가 나에게 오는 시간")]
+    [SerializeField] private float absorbTime = 0.2f;
 
-
+    private WaitForSeconds inOrderTime;
 
     public Sedol lastSedol;
 
@@ -28,6 +30,8 @@ public class GameManager : MonoBehaviour
     public int maxLevel;
     public int score;
 
+    public ParticleSystem effect;
+
     public bool isGameOver;
     private void Awake()
     {
@@ -40,20 +44,24 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        inOrderTime = new WaitForSeconds(absorbTime);
         NextSedol();
     }
 
     private void NextSedol()
     {
-        Sedol newSedol = GetSedol();
-        lastSedol = newSedol;
+        if (!isGameOver)
+        {
+            Sedol newSedol = GetSedol();
+            lastSedol = newSedol;
 
-        lastSedol.level = Random.Range(0, maxLevel);
-        lastSedol.gameObject.SetActive(true);
+            lastSedol.level = Random.Range(0, maxLevel);
+            lastSedol.gameObject.SetActive(true);
 
-        // 코루틴의 호출 형태
-        StartCoroutine(WaitLastSedolNull());
-        //StartCoroutine("WaitLastSedolNull");
+            // 코루틴의 호출 형태
+            StartCoroutine(WaitLastSedolNull());
+            //StartCoroutine("WaitLastSedolNull");
+        }
     }
 
     private Sedol GetSedol()
@@ -110,6 +118,30 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
 
         Debug.Log("게임오버!");
+
+        // 하이어라키에 활성화된 써클 오브젝트 찾기
+        // 1. Sedol[] sedols = FindObjectsOfType<Sedol>(); --> 메모리 과다사용
+
+        // 2.
+        Sedol[] sedols = sedolGroup.GetComponentsInChildren<Sedol>();
+        for (int i = 0; i < sedols.Length; i++)
+        {
+            sedols[i].circleRigidbody.simulated=false;
+        }
         
+        // !gameObject.activeSelf 비활성
+
+        StartCoroutine(InOrder(sedols));
     }
+
+    private IEnumerator InOrder(Sedol[] sedols)
+    {
+        for (int i = 0; i < sedols.Length; i++)
+        {
+            // 게임오버시에는 움직이는 효과가 필요없으므로 나의 위치를 넘긴다.
+            sedols[i].Absorb(sedols[i].transform.position);
+            yield return inOrderTime;
+        }
+    }
+
 }
