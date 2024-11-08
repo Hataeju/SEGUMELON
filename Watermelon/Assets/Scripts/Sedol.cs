@@ -182,10 +182,12 @@ public class Sedol : MonoBehaviour
         isMerge = false;
         gameObject.SetActive(false);
 
-        //레벨에 비례하여 점수 부여
+        // 레벨에 비례하여 점수 부여
         // 더 높은 레벨 생성시 극적인 효과를 주고싶었다
         GameManager.Instance.score += (int)Mathf.Pow(2, level);
-        
+
+        UIManager.Instance.tmpScore.text = GameManager.Instance.score.ToString();
+
     }
 
     /// <summary>

@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public ParticleSystem effect;
 
     public bool isGameOver;
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        inOrderTime = new WaitForSeconds(absorbTime);
+        inOrderTime = new WaitForSeconds(absorbTime * 0.5f);
         NextSedol();
     }
 
