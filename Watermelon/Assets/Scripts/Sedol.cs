@@ -44,6 +44,9 @@ public class Sedol : MonoBehaviour
     private float stayTime;
     SpriteRenderer spriteRenderer;
 
+    private WaitForSeconds waitTouch;
+    private bool isTouch;
+
     private void Awake()
     {
         mainCamera = Camera.main;
@@ -55,6 +58,7 @@ public class Sedol : MonoBehaviour
 
         waitAbsorb = new WaitForSeconds(absorbTime);
         waitAnimation = new WaitForSeconds(playAniamtion);
+        waitTouch = new WaitForSeconds(0.2f);
     }
     // 1. 마우스 커서를 따리다니는 오브젝트 => 휴대폰 빌드에서 손가락 터치랑 대응이 된다.
     //
@@ -214,6 +218,7 @@ public class Sedol : MonoBehaviour
 
         animator.SetInteger("Level", level + 1);
         PlayEffect();
+        SoundManager.Instance.PlaySFX(SFX.LevelUP);
         // 애니메이션 재싱시간 또한 기다린다.
         yield return waitAnimation;
 
@@ -282,7 +287,22 @@ public class Sedol : MonoBehaviour
         }
     }
 
+    private void OnCollisonEnter2D(Collision2D collision)
+    {
+        StartCoroutine(TouchSound());  
+    }
 
+    private IEnumerator TouchSound()
+    {
+        if (isTouch) yield break;   // yield break 코루틴 탈출
+
+        isTouch = true;
+        SoundManager.Instance.PlaySFX(SFX.Touch);
+
+        yield return waitTouch;
+        isTouch = false;
+
+    }
 
 
 

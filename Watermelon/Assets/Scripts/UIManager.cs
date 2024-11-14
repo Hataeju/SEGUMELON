@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,6 +11,11 @@ public class UIManager : MonoBehaviour
 
     public TextMeshProUGUI tmpScore;
     [SerializeField] private TextMeshProUGUI tmpBestScore;
+
+    public GameObject gameoverUI;
+    public TextMeshProUGUI tempGameoverScore;
+    [SerializeField] private Button buttonRestart;
+
 
     private void Awake()
     {
@@ -33,5 +39,10 @@ public class UIManager : MonoBehaviour
     {
         //합쳐질때
         //tmpScore.text = GameManager.Instance.score.ToString();
+    }
+
+    IEnumerator Restart()
+    {
+        yield return null;
     }
 }

@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour
             lastSedol.level = Random.Range(0, maxLevel);
             lastSedol.gameObject.SetActive(true);
 
+            SoundManager.Instance.PlaySFX(SFX.Next);
+
             // 코루틴의 호출 형태
             StartCoroutine(WaitLastSedolNull());
             //StartCoroutine("WaitLastSedolNull");
@@ -141,8 +143,11 @@ public class GameManager : MonoBehaviour
         {
             // 게임오버시에는 움직이는 효과가 필요없으므로 나의 위치를 넘긴다.
             sedols[i].Absorb(sedols[i].transform.position);
+            SoundManager.Instance.PlaySFX(SFX.Next);
             yield return inOrderTime;
         }
+
+        SoundManager.Instance.PlaySFX(SFX.GameOver);
     }
 
 }
