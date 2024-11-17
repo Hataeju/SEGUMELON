@@ -304,8 +304,28 @@ public class Sedol : MonoBehaviour
 
     }
 
+    //게임 오브젝트가 비활성화 되었을 때 호출
+    // 오브젝트 풀링 시 다시 재사용할 수 있도록 모든 속성을 초기화
+    private void OnDisable()
+    {
+        // 속성 초기화
+        level = 0;
+        isDrag = false;
+        isMerge = false;
+        isTouch = false;
 
+        // 트랜스폼 초기화(세돌 그룹의 자식으로 생성되고 있으므로 부모-자식의 관계인 상태. localposition을 수정)
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+        transform.localScale = Vector3.zero;
 
+        // 물리 초기화
+        circleRigidbody.simulated = false;
+        circleRigidbody.velocity = Vector3.zero;
+        circleRigidbody.angularVelocity = 0;
+        
+        circlecollider.enabled = true;
+    }
 
 
 

@@ -34,6 +34,15 @@ public class GameManager : MonoBehaviour
 
     public bool isGameOver;
 
+    // 오브젝트 풀링 : 재사용 가능한 게임 오브젝트를 재활용하는 것
+    public List<Sedol> sedolList = new List<Sedol>();
+    public List<ParticleSystem> effectList = new List<ParticleSystem>();
+
+    public int poolSize = 10;
+    public int poolIndex;
+
+
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -41,6 +50,12 @@ public class GameManager : MonoBehaviour
         // 프레임 제한(모바일의 경우)
         Application.targetFrameRate = 60;
         waitNextCircle = new WaitForSeconds(1.5f);
+
+        // 미리 풀 사이즈만큼 세돌 생성
+        for(int i = 0; i < poolSize; i++)
+        {
+            CreateSedol();
+        }
     }
     // Start is called before the first frame update
     void Start()
@@ -53,8 +68,7 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameOver)
         {
-            Sedol newSedol = GetSedol();
-            lastSedol = newSedol;
+            lastSedol = GetSedol();
 
             lastSedol.level = Random.Range(0, maxLevel);
             lastSedol.gameObject.SetActive(true);
@@ -67,14 +81,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private Sedol GetSedol()
+    //써클 생성 함수
+    private Sedol CreateSedol()
     {
         ParticleSystem effect = Instantiate(effectPrefab, effectGroup).GetComponent<ParticleSystem>();
+        effect.name = "Effect" + effectList.Count;
+        effectList.Add(effect);
+
         // instantiate 게임 오브젝트를 생성하는 코드
         GameObject temp = Instantiate(sedolPrefab, sedolGroup);
         Sedol sedol = temp.GetComponent<Sedol>();
+        sedol.name = "Sedol" + sedolList.Count;
         sedol.effect = effect;
+        sedolList.Add(sedol);
+
         return sedol;
+    }
+
+    //써클을 가져오는 함수
+    private Sedol GetSedol()
+    {
+        for(int i = 0 ; i<sedolList.Count ; i++)
+        {
+            // 비활성화인 오브젝트를 찾음
+            if (!sedolList[i].gameObject.activeSelf)
+            {
+                return sedolList[i];
+            }
+        }
+        // 비활성화인 오브젝트가 없다면 새로 생성
+        return CreateSedol();
     }
     // Update is called once per frame
     void Update()
