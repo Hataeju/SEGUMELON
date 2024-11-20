@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     [Header("상대가 나에게 오는 시간")]
     [SerializeField] private float absorbTime = 0.2f;
 
-    private WaitForSeconds inOrderTime;
+    private WaitForSeconds inOrderTime = new WaitForSeconds(0.5f);
 
     public Sedol lastSedol;
 
@@ -58,13 +58,9 @@ public class GameManager : MonoBehaviour
         }
     }
     // Start is called before the first frame update
-    void Start()
-    {
-        inOrderTime = new WaitForSeconds(absorbTime * 0.5f);
-        NextSedol();
-    }
+    
 
-    private void NextSedol()
+    public void NextSedol()
     {
         if (!isGameOver)
         {
@@ -182,6 +178,12 @@ public class GameManager : MonoBehaviour
             SoundManager.Instance.PlaySFX(SFX.Next);
             yield return inOrderTime;
         }
+        // 최고 기록 저장
+        int bestscore = Mathf.Max(score, PlayerPrefs.GetInt("BestScore"));
+        PlayerPrefs.SetInt("BestScore", bestscore);
+
+        UIManager.Instance.gameoverUI.SetActive(true);
+        UIManager.Instance.tempGameoverScore.text = "점수: " + score.ToString();
 
         SoundManager.Instance.PlaySFX(SFX.GameOver);
     }
